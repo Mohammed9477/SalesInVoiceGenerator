@@ -1,5 +1,6 @@
 package SalesVoiceGenerator;
-
+import SalesVoiceGenerator.InvoiceHeader;
+import SalesVoiceGenerator.LineClass;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,16 +11,16 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-public class fileClass {
-    //class for file operations
-    private ArrayList<InvoiceClass> invoices;
-    //private ArrayList<linesClass> lines;
-    public fileClass(){
-        invoices = new ArrayList<>();
-        //lines = new ArrayList<>();
-    }
-    public ArrayList<InvoiceClass> read() throws IOException {
+public class FileOperation {
+    // This class is used to read and write files.
+
+    private ArrayList<InvoiceHeader> invoiceHeader;
+
+    public ArrayList<InvoiceHeader> read(){
+
+
         JFileChooser fc = new JFileChooser();
+
         try {
             JOptionPane.showMessageDialog(null, "Select Invoice Header File",
                     "Invoice Header", JOptionPane.INFORMATION_MESSAGE);
@@ -32,7 +33,7 @@ public class fileClass {
                 // 1,22-11-2020,Ali
                 // 2,13-10-2021,Saleh
                 // 3,09-01-2019,Ibrahim
-                ArrayList<InvoiceClass> invoicesArray = new ArrayList<>();
+                ArrayList<InvoiceHeader> invoicesArray = new ArrayList<>();
                 for (String headerLine : headerLines) {
                     try {
                         String[] headerParts = headerLine.split(",");
@@ -40,7 +41,7 @@ public class fileClass {
                         String invoiceDate = headerParts[1];
                         String customerName = headerParts[2];
 
-                        InvoiceClass invoice = new InvoiceClass(invoiceNum, invoiceDate, customerName);
+                        InvoiceHeader invoice = new InvoiceHeader(invoiceNum, invoiceDate, customerName);
                         invoicesArray.add(invoice);
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -56,31 +57,78 @@ public class fileClass {
                     Path linePath = Paths.get(lineFile.getAbsolutePath());
                     List<String> lineLines = Files.readAllLines(linePath);
                     System.out.println("Lines have been read");
-                    // 1,1,2,3
-                    // 2,2,3,4
-                    // 3,3,4,5
                     for (String lineLine : lineLines) {
                         try {
-                            String[] lineParts = lineLine.split(",");
+                            String lineParts[] = lineLine.split(",");
                             int invoiceNum = Integer.parseInt(lineParts[0]);
-                            int lineNum = Integer.parseInt(lineParts[1]);
-                            int quantity = Integer.parseInt(lineParts[2]);
-                            double price = Double.parseDouble(lineParts[3]);
-                            for (InvoiceClass invoice : invoicesArray) {
-                                if (invoice.getInvoiceN() == invoiceNum) {
-                                    linesClass line;
-
+                            String itemName = lineParts[1];
+                            double itemPrice = Double.parseDouble(lineParts[2]);
+                            int count = Integer.parseInt(lineParts[3]);
+                            InvoiceHeader inv = null;
+                            for (InvoiceHeader invoice : invoicesArray) {
+                                if (invoice.getIdNumber() == invoiceNum) {
+                                    inv = invoice;
+                                    break;
                                 }
-
-
                             }
-                        } catch (NumberFormatException e) {
-                            throw new RuntimeException(e);
-                        }
-                    } }}}catch (Exception ex) {
+
+                            LineClass line = new LineClass(itemName, itemPrice, count, inv);
+                            inv.getLines().add(line);
+                        } catch (Exception ex) {
                             ex.printStackTrace();
                             JOptionPane.showMessageDialog(null, "Error in line format", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
 
-                        } return invoices;
+                    System.out.println("Check point");
+
+                }
+
+                this.invoiceHeader = invoicesArray;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Cannot read file", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+
+        return invoiceHeader;
     }
+
+
+
+
+
+    public void write(ArrayList<InvoiceHeader> invoices)
+    {
+        for(InvoiceHeader inv : invoices)
+        {
+            int invId = inv.getIdNumber();
+            String date = inv.getInvoiceDate();
+            String customer = inv.getCustomerName();
+            System.out.println("\n Invice " + invId + "\n {\n " + date + "," + customer);
+            ArrayList<LineClass> lines = inv.getLines();
+            for(LineClass line : lines)
+            {
+                System.out.println( line.getLineItem() + "," + line.getLinePrice() + "," + line.getLineCount());
+            }
+
+            System.out.println(" } \n");
+        }
+
+    }
+
+
+
+
+
+    public static void main(String[] args)
+    {
+        FileOperation fo = new FileOperation();
+        ArrayList<InvoiceHeader> invoices = fo.read();
+        fo.write(invoices);
+
+    }
+
+
 }
