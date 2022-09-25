@@ -12,6 +12,8 @@ import javax.swing.*;
 
 public class InvoiceFrame extends Component {
 
+    private JButton button1;
+
     public InvoiceFrame() {
         initComponents();
     }
