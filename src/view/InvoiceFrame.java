@@ -218,9 +218,7 @@ public class InvoiceFrame extends Component {
         // TODO add your handling code here:
     }//GEN-LAST:event_createLineButtonActionPerformed
 
-    /**
-     @islamAmin
-     */
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -231,31 +229,31 @@ public class InvoiceFrame extends Component {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel InvoiceDateLabel;
-    private javax.swing.JButton createInvoiceButton;
-    private javax.swing.JButton createLineButton;
+    public javax.swing.JButton createInvoiceButton;
+    public javax.swing.JButton createLineButton;
     private javax.swing.JLabel customerNameLabel;
-    private javax.swing.JButton deleteInvoiceButton;
-    private javax.swing.JButton deleteLineButton;
+    public javax.swing.JButton deleteInvoiceButton;
+    public javax.swing.JButton deleteLineButton;
     private javax.swing.JLabel invoiceNumLabel;
     private javax.swing.JTable invoiceTable;
     private javax.swing.JLabel invoiceTotalLabel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel2;
+    public javax.swing.JLabel jLabel3;
+    public javax.swing.JLabel jLabel4;
+    public javax.swing.JMenu jMenu1;
+    public javax.swing.JMenu jMenu2;
+    public javax.swing.JMenu jMenu3;
+    public javax.swing.JMenuBar jMenuBar1;
+    public javax.swing.JMenuBar jMenuBar2;
+    public javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable lineTable;
-    private javax.swing.JMenuItem loadFileMenuIteam;
-    private javax.swing.JMenuItem saveFileMenuIteam;
+    public javax.swing.JMenuItem loadFileMenuIteam;
+    public javax.swing.JMenuItem saveFileMenuIteam;
     // End of variables declaration//GEN-END:variables
     private ArrayList<InvoiceHeader> invoices;
-    private Listener controller = new Listener(this);
+    public Listener controller = new Listener(this);
     private InvoiceHeaderTableModel invoicesTableModel;
 
 
